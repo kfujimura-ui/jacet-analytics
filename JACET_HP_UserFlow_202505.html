@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JACET HP ユーザー動線レポート（2026年5月）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background: #f4f6f9;
+    color: #2c3e50;
+    font-size: 14px;
+  }
+
+  /* ヘッダー */
+  .header {
+    background: linear-gradient(135deg, #003087 0%, #0055b3 100%);
+    color: white;
+    padding: 28px 40px 24px;
+  }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.03em; }
+  .header .meta { margin-top: 6px; font-size: 13px; opacity: 0.8; }
+  .header .period { font-weight: 600; }
+
+  /* コンテンツ */
+  .content { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+
+  /* サマリーバー */
+  .summary-bar {
+    display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
+  }
+  .summary-card {
+    background: white; border-radius: 10px; padding: 16px 20px;
+    flex: 1; min-width: 180px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-left: 4px solid #003087;
+  }
+  .summary-card .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+  .summary-card .value { font-size: 24px; font-weight: 700; color: #003087; margin-top: 4px; }
+  .summary-card .sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+  /* セクション */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-size: 15px; font-weight: 700; color: #003087;
+    margin-bottom: 16px; padding-bottom: 8px;
+    border-bottom: 2px solid #e0e8f5;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .badge {
+    background: #003087; color: white;
+    font-size: 11px; padding: 2px 8px; border-radius: 12px;
+    font-weight: 600;
+  }
+
+  /* フローコンテナ */
+  .flow-container {
+    background: white; border-radius: 12px;
+    padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .flow-description {
+    font-size: 12px; color: #888; margin-bottom: 20px;
+    padding: 10px 14px; background: #f8fafd; border-radius: 8px;
+    border-left: 3px solid #b0c8e8;
+  }
+
+  /* フローグリッド（2カラム） */
+  .flow-grid {
+    display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0;
+    align-items: start;
+  }
+  .flow-col-label {
+    font-size: 11px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 12px; padding: 0 4px;
+  }
+  .arrow-col { display: flex; align-items: center; justify-content: center; padding-top: 40px; }
+  .arrow-col svg { opacity: 0.4; }
+
+  /* ノード */
+  .node-list { display: flex; flex-direction: column; gap: 8px; }
+  .node {
+    border-radius: 8px; padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px;
+  }
+  .node.source {
+    background: linear-gradient(90deg, #e8f0fc 0%, #f4f7ff 100%);
+    border: 1px solid #c5d8f5;
+  }
+  .node.target {
+    background: linear-gradient(90deg, #f0faf3 0%, #f8fff9 100%);
+    border: 1px solid #b8e8c4;
+  }
+  .node.target.top1 { background: linear-gradient(90deg, #daf3e3 0%, #f0fff5 100%); border-color: #7dd4a0; }
+  .node.muted {
+    background: #fafafa; border: 1px solid #e8e8e8; opacity: 0.75;
+  }
+  .node-path {
+    font-size: 12px; font-family: 'Menlo', 'Monaco', monospace;
+    color: #2c3e50; font-weight: 500;
+    word-break: break-all;
+  }
+  .node-name {
+    font-size: 11px; color: #666; margin-top: 2px;
+  }
+  .node-count {
+    font-size: 15px; font-weight: 700; color: #003087;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .node.target .node-count { color: #1a7a3f; }
+
+  /* バー */
+  .bar-wrap { margin-top: 6px; }
+  .bar {
+    height: 5px; border-radius: 3px;
+    background: linear-gradient(90deg, #4a90d9, #7ab8f5);
+    transition: width 0.3s;
+  }
+  .node.target .bar { background: linear-gradient(90deg, #3aaa60, #72d49a); }
+
+  /* 2段フロー（A→B→C） */
+  .flow-3col {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr 32px 1fr;
+    align-items: start;
+  }
+  .flow-3col .flow-col-label { margin-bottom: 10px; }
+  .flow-3col .arrow-col { padding-top: 36px; }
+
+  /* 注記 */
+  .note { font-size: 11px; color: #aaa; margin-top: 16px; padding: 8px 12px; background: #fafafa; border-radius: 6px; }
+  .note strong { color: #888; }
+
+  /* インサイトボックス */
+  .insight-box {
+    background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+    border: 1px solid #f0d060;
+    border-radius: 10px; padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+  .insight-box h3 { font-size: 14px; color: #7a5f00; margin-bottom: 12px; }
+  .insight-item {
+    display: flex; gap: 10px; margin-bottom: 8px;
+    font-size: 13px; color: #5a4a00; line-height: 1.6;
+  }
+  .insight-item .icon { font-size: 16px; flex-shrink: 0; }
+
+  /* フッター */
+  .footer {
+    text-align: center; padding: 20px; color: #bbb; font-size: 11px;
+    border-top: 1px solid #e8e8e8; margin-top: 16px;
+  }
+
+  /* 印刷 */
+  @media print {
+    body { background: white; }
+    .flow-container { box-shadow: none; border: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>JACET HP ユーザー動線レポート</h1>
+  <div class="meta">
+    <span class="period">2026年4月21日 〜 5月18日（過去28日間）</span> ｜
+    データソース：Google Analytics 4 経路データ探索
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- サマリー -->
+  <div class="summary-bar">
+    <div class="summary-card">
+      <div class="label">総セッション数</div>
+      <div class="value">5,822</div>
+      <div class="sub">session_start イベント</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">最初に訪れるページ（上位）</div>
+      <div class="value">/job-openings/</div>
+      <div class="sub">1,976件（34%）がここから</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">トップページ経由のセッション</div>
+      <div class="value">1,668</div>
+      <div class="sub">全体の29%</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">大会ページへの直接流入</div>
+      <div class="value">430</div>
+      <div class="sub">/convention/2026-2/</div>
+    </div>
+  </div>
+
+  <!-- インサイト -->
+  <div class="insight-box">
+    <h3>💡 主なインサイト</h3>
+    <div class="insight-item">
+      <span class="icon">🔍</span>
+      <span><strong>求人情報が最大の入口：</strong>/job-openings/ が全セッションの34%（1,976件）の最初のページ。多くが外部検索から直接アクセスしており、一般向けの入口として機能している。</span>
+    </div>
+    <div class="insight-item">
+      <span class="icon">🏠</span>
+      <span><strong>トップページ経由のユーザーは「入会」「大会」「役員」へ：</strong>トップページ (/) を最初に訪れた1,668件のユーザーは、次に求人(367)・大会(166)・入会方法(82)へ移動。JACETを初めて知ったユーザーが多い可能性。</span>
+    </div>
+    <div class="insight-item">
+      <span class="icon">📋</span>
+      <span><strong>大会ページ訪問者の最多次行動は「Call for Papers」：</strong>/convention/2026-2/ を訪れた430件のうち、次のページへ進んだ最多は Call for Papers（closed）(32件)。締め切り後も参照されている。</span>
+    </div>
+    <div class="insight-item">
+      <span class="icon">📖</span>
+      <span><strong>紀要ページからの離脱率が高い：</strong>/publication/jacet-journal/ (93件) を最初のページとして訪れたユーザーのうち、次ページへ進んだのは44件のみ。多くが1ページで離脱している可能性。</span>
+    </div>
+  </div>
+
+  <!-- セクション1: セッション開始→最初のページ -->
+  <div class="section">
+    <div class="section-title">
+      <span>セッション開始後、最初に見るページ</span>
+      <span class="badge">上位6ページ</span>
+    </div>
+    <div class="flow-container">
+      <div class="flow-description">
+        ユーザーがJACET HPを訪問したとき、最初に着地するページの分布（2026年4月21日〜5月18日）
+      </div>
+
+      <div class="flow-grid">
+        <div>
+          <div class="flow-col-label">始点</div>
+          <div class="node-list">
+            <div class="node source">
+              <div>
+                <div class="node-path">session_start</div>
+                <div class="node-name">全セッション</div>
+              </div>
+              <div class="node-count">5,822</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-col">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <line x1="4" y1="16" x2="24" y2="16" stroke="#4a90d9" stroke-width="2.5"/>
+            <polyline points="18,10 26,16 18,22" fill="none" stroke="#4a90d9" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flow-col-label">最初のページ（ステップ+1）</div>
+          <div class="node-list">
+            <div class="node target top1">
+              <div>
+                <div class="node-path">/job-openings/</div>
+                <div class="node-name">求人情報</div>
+                <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
+              </div>
+              <div class="node-count">1,976</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/</div>
+                <div class="node-name">ホーム（トップページ）</div>
+                <div class="bar-wrap"><div class="bar" style="width:84%"></div></div>
+              </div>
+              <div class="node-count">1,668</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/convention/2026-2/</div>
+                <div class="node-name">第65回国際大会 2026</div>
+                <div class="bar-wrap"><div class="bar" style="width:22%"></div></div>
+              </div>
+              <div class="node-count">430</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/about_jacet/how_to_join_jacet/</div>
+                <div class="node-name">入会方法（How to join JACET）</div>
+                <div class="bar-wrap"><div class="bar" style="width:14%"></div></div>
+              </div>
+              <div class="node-count">278</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/publication/jacet-journal/</div>
+                <div class="node-name">JACET Journal（英語教育研究）</div>
+                <div class="bar-wrap"><div class="bar" style="width:5%"></div></div>
+              </div>
+              <div class="node-count">93</div>
+            </div>
+            <div class="node muted">
+              <div>
+                <div class="node-path">その他15ページ</div>
+              </div>
+              <div class="node-count" style="color:#aaa">1,377</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>読み方：</strong>各セッション開始時に「最初に着地したページ」の件数。外部検索からの直接流入が多いページほど上位に出やすい。
+      </div>
+    </div>
+  </div>
+
+  <!-- セクション2: トップページからの動線 -->
+  <div class="section">
+    <div class="section-title">
+      <span>トップページ <code style="font-size:13px;color:#003087">/</code> を訪問後の動き</span>
+      <span class="badge">上位5ページ</span>
+    </div>
+    <div class="flow-container">
+      <div class="flow-description">
+        トップページ（ホーム）を最初に見たユーザー 1,668件が、次にどのページへ移動したか
+      </div>
+
+      <div class="flow-grid">
+        <div>
+          <div class="flow-col-label">起点</div>
+          <div class="node-list">
+            <div class="node source">
+              <div>
+                <div class="node-path">/</div>
+                <div class="node-name">ホーム（トップページ）</div>
+              </div>
+              <div class="node-count">1,668</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-col">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <line x1="4" y1="16" x2="24" y2="16" stroke="#4a90d9" stroke-width="2.5"/>
+            <polyline points="18,10 26,16 18,22" fill="none" stroke="#4a90d9" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flow-col-label">次に見るページ（ステップ+2）</div>
+          <div class="node-list">
+            <div class="node target top1">
+              <div>
+                <div class="node-path">/job-openings/</div>
+                <div class="node-name">求人情報</div>
+                <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
+              </div>
+              <div class="node-count">367</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/convention/2026-2/</div>
+                <div class="node-name">第65回国際大会 2026</div>
+                <div class="bar-wrap"><div class="bar" style="width:45%"></div></div>
+              </div>
+              <div class="node-count">166</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/about_jacet/how_to_join_jacet/</div>
+                <div class="node-name">入会方法</div>
+                <div class="bar-wrap"><div class="bar" style="width:22%"></div></div>
+              </div>
+              <div class="node-count">82</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/contact/</div>
+                <div class="node-name">お問い合わせ</div>
+                <div class="bar-wrap"><div class="bar" style="width:14%"></div></div>
+              </div>
+              <div class="node-count">50</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/about_jacet/executives/</div>
+                <div class="node-name">役員一覧</div>
+                <div class="bar-wrap"><div class="bar" style="width:13%"></div></div>
+              </div>
+              <div class="node-count">49</div>
+            </div>
+            <div class="node muted">
+              <div>
+                <div class="node-path">その他15ページ</div>
+              </div>
+              <div class="node-count" style="color:#aaa">552</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>考察：</strong>トップページから求人情報(367件)が最多。次いで大会ページ(166件)、入会方法(82件)の順。「JACETを知って情報収集する」ユーザー像が見える。お問い合わせ(50件)・役員(49件)も一定数あり。
+      </div>
+    </div>
+  </div>
+
+  <!-- セクション3: 大会ページからの動線 -->
+  <div class="section">
+    <div class="section-title">
+      <span>大会ページ <code style="font-size:13px;color:#003087">/convention/2026-2/</code> を訪問後の動き</span>
+      <span class="badge">上位5ページ</span>
+    </div>
+    <div class="flow-container">
+      <div class="flow-description">
+        第65回国際大会(2026)のトップページを訪問したユーザー 430件が、次にどのページへ移動したか
+      </div>
+
+      <div class="flow-grid">
+        <div>
+          <div class="flow-col-label">起点</div>
+          <div class="node-list">
+            <div class="node source">
+              <div>
+                <div class="node-path">/convention/2026-2/</div>
+                <div class="node-name">第65回国際大会 2026</div>
+              </div>
+              <div class="node-count">430</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-col">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <line x1="4" y1="16" x2="24" y2="16" stroke="#4a90d9" stroke-width="2.5"/>
+            <polyline points="18,10 26,16 18,22" fill="none" stroke="#4a90d9" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flow-col-label">次に見るページ（ステップ+2）</div>
+          <div class="node-list">
+            <div class="node target top1">
+              <div>
+                <div class="node-path">/convention/2026-2/call-for-papers-closed/</div>
+                <div class="node-name">Call for Papers（締切済）</div>
+                <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
+              </div>
+              <div class="node-count">32</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/</div>
+                <div class="node-name">ホーム（トップページに戻る）</div>
+                <div class="bar-wrap"><div class="bar" style="width:91%"></div></div>
+              </div>
+              <div class="node-count">29</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/convention/2026-2/for-supporting-members/</div>
+                <div class="node-name">For Supporting Members（賛助会員向け）</div>
+                <div class="bar-wrap"><div class="bar" style="width:72%"></div></div>
+              </div>
+              <div class="node-count">23</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/convention/2026-2/jaal-in-jacet-call-for-papers/</div>
+                <div class="node-name">JAAL in JACET Call for Papers</div>
+                <div class="bar-wrap"><div class="bar" style="width:31%"></div></div>
+              </div>
+              <div class="node-count">10</div>
+            </div>
+            <div class="node target">
+              <div>
+                <div class="node-path">/convention/</div>
+                <div class="node-name">大会一覧（トップ）</div>
+                <div class="bar-wrap"><div class="bar" style="width:25%"></div></div>
+              </div>
+              <div class="node-count">8</div>
+            </div>
+            <div class="node muted">
+              <div>
+                <div class="node-path">その他15ページ</div>
+              </div>
+              <div class="node-count" style="color:#aaa">60</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>考察：</strong>大会ページからは Call for Papers(32)、For Supporting Members(23)、JAAL in JACET(10)への移動が多い。参加登録(Registration)ページへの動線が見られないのは注意点。29件がトップページに戻っており、離脱・再探索の可能性も。
+      </div>
+    </div>
+  </div>
+
+  <!-- データ注記 -->
+  <div style="background:white;border-radius:10px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);font-size:12px;color:#888;line-height:1.8;">
+    <strong style="color:#555">【データについて】</strong><br>
+    ・期間：2026年4月21日〜5月18日（過去28日間）<br>
+    ・ツール：Google Analytics 4「経路データ探索」（ページパスとスクリーン クラス）<br>
+    ・始点はセッション開始イベント(session_start)、ステップ+1が最初のページ、ステップ+2が選択ページ経由後の次ページ<br>
+    ・「他○個」はページ数が多いため省略されたグループ。実際にはさらに多くのページへの動線が存在する
+  </div>
+
+</div>
+
+<div class="footer">
+  JACET HP ユーザー動線レポート ｜ 作成日：2026年5月19日 ｜ JACET中部支部事務局
+</div>
+
+</body>
+</html>
