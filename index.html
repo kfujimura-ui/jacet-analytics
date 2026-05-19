@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JACET HP アクセス分析レポート</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 680px;
+      width: 100%;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .header .badge {
+      display: inline-block;
+      background: #1a56db;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .header p {
+      font-size: 14px;
+      color: #666;
+    }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 1px solid #e8ecf0;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    }
+    .card-icon {
+      font-size: 40px;
+      flex-shrink: 0;
+    }
+    .card-body h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+    .card-body p {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.6;
+    }
+    .card-arrow {
+      margin-left: auto;
+      font-size: 20px;
+      color: #aaa;
+      flex-shrink: 0;
+    }
+    .footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge">JACET</div>
+      <h1>JACET ホームページ<br>アクセス分析レポート</h1>
+      <p>2026年4月21日〜5月18日 計測期間</p>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="JACET_HP_Analytics_Report_202505.html">
+        <div class="card-icon">📊</div>
+        <div class="card-body">
+          <h2>アクセス分析レポート</h2>
+          <p>訪問数・ページビュー・デバイス別分析など<br>総合的なアクセスデータをまとめたレポート</p>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+
+      <a class="card" href="JACET_HP_UserFlow_202505.html">
+        <div class="card-icon">🗺️</div>
+        <div class="card-body">
+          <h2>ユーザー動線フローレポート</h2>
+          <p>訪問者がどのページをどのように辿ったか<br>動線・離脱ポイントを可視化したレポート</p>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>JACET ホームページ改訂委員会 © 2026</p>
+    </div>
+  </div>
+</body>
+</html>
