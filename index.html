@@ -8,136 +8,377 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: #f5f7fa;
+      background: #f0f4fa;
       color: #333;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      padding: 40px 20px 60px;
     }
     .container {
-      max-width: 680px;
-      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
     }
+
+    /* ── Header ── */
     .header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
     .header .badge {
       display: inline-block;
-      background: #1a56db;
+      background: #1e3a5f;
       color: white;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 0.05em;
-      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 14px;
       border-radius: 20px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
     }
     .header h1 {
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 28px;
+      font-weight: 800;
       color: #1a1a2e;
       line-height: 1.4;
       margin-bottom: 10px;
     }
-    .header p {
-      font-size: 14px;
-      color: #666;
+    .header .sub {
+      font-size: 13px;
+      color: #888;
     }
-    .cards {
+    .header .sub span {
+      background: #e8f0fe;
+      color: #1a56db;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .section-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .section-icon.blue   { background: #dbeafe; }
+    .section-icon.green  { background: #d1fae5; }
+    .section-icon.purple { background: #ede9fe; }
+    .section-icon.orange { background: #ffedd5; }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .section-desc {
+      font-size: 12px;
+      color: #888;
+      margin-left: 2px;
+    }
+
+    /* ── Report list ── */
+    .report-list {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 10px;
     }
-    .card {
+    .report-card {
       background: white;
-      border-radius: 12px;
-      padding: 28px 32px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border-radius: 10px;
+      padding: 16px 20px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
       text-decoration: none;
       color: inherit;
       display: flex;
       align-items: center;
-      gap: 24px;
-      transition: transform 0.15s, box-shadow 0.15s;
+      gap: 16px;
+      transition: transform 0.12s, box-shadow 0.12s;
       border: 1px solid #e8ecf0;
     }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    .report-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.11);
     }
-    .card-icon {
-      font-size: 40px;
+    .report-card.archived {
+      opacity: 0.62;
+      background: #fafafa;
+    }
+    .report-card.archived:hover {
+      opacity: 0.85;
+    }
+    .date-badge {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      background: #f0f4fa;
+      border: 1px solid #dde3ee;
+      border-radius: 6px;
+      padding: 4px 10px;
+      white-space: nowrap;
       flex-shrink: 0;
+      min-width: 72px;
+      text-align: center;
     }
-    .card-body h2 {
-      font-size: 17px;
+    .date-badge.latest {
+      background: #1e3a5f;
+      color: white;
+      border-color: #1e3a5f;
+    }
+    .report-info { flex: 1; }
+    .report-info h3 {
+      font-size: 14px;
       font-weight: 700;
       color: #1a1a2e;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
-    .card-body p {
-      font-size: 13px;
-      color: #777;
-      line-height: 1.6;
+    .report-info p {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
     }
-    .card-arrow {
-      margin-left: auto;
-      font-size: 20px;
-      color: #aaa;
+    .tag-new {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 8px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-final {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 8px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .report-arrow {
+      color: #bbb;
+      font-size: 18px;
       flex-shrink: 0;
     }
+
+    /* ── Archive toggle ── */
+    .archive-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      margin-top: 4px;
+      padding: 6px 0;
+    }
+    .archive-toggle span {
+      font-size: 12px;
+      color: #1a56db;
+      font-weight: 600;
+    }
+    .archive-toggle .chevron {
+      font-size: 11px;
+      color: #1a56db;
+      transition: transform 0.2s;
+    }
+    .archive-toggle.open .chevron {
+      transform: rotate(180deg);
+    }
+    .archive-items {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .archive-items.open {
+      display: flex;
+    }
+
+    /* ── Schedule info ── */
+    .schedule-box {
+      background: white;
+      border-radius: 10px;
+      padding: 18px 22px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 36px;
+    }
+    .schedule-box h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #555;
+    }
+    .schedule-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-blue   { background: #1a56db; }
+    .dot-green  { background: #059669; }
+    .dot-gray   { background: #bbb; }
+
+    /* ── Footer ── */
     .footer {
       margin-top: 48px;
       text-align: center;
       font-size: 12px;
-      color: #aaa;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- Header -->
     <div class="header">
-      <div class="badge">JACET</div>
+      <div class="badge">JACET Analytics</div>
       <h1>JACET ホームページ<br>アクセス分析レポート</h1>
-      <p>集計期間：2026年2月（GA設置以降）〜 2026年5月18日</p>
+      <p class="sub">GA4計測開始 <span>2026年2月〜</span> &nbsp;|&nbsp; 定期更新中</p>
     </div>
 
-    <div class="cards">
-      <a class="card" href="JACET_HP_Analytics_Report_202505.html">
-        <div class="card-icon">📊</div>
-        <div class="card-body">
-          <h2>アクセス分析レポート</h2>
-          <p>訪問数・ページビュー・デバイス別分析など<br>総合的なアクセスデータをまとめたレポート</p>
-        </div>
-        <div class="card-arrow">›</div>
-      </a>
+    <!-- 収集スケジュール -->
+    <div class="schedule-box">
+      <h3>定期更新スケジュール</h3>
+      <div class="schedule-grid">
+        <div class="schedule-item"><div class="schedule-dot dot-blue"></div>ユーザーフロー：60日ごと（〜2027年3月）</div>
+        <div class="schedule-item"><div class="schedule-dot dot-green"></div>総合分析：90日ごと（〜2027年2月）</div>
+        <div class="schedule-item"><div class="schedule-dot dot-gray"></div>次回フロー更新：2026年7月21日</div>
+        <div class="schedule-item"><div class="schedule-dot dot-gray"></div>次回総合更新：2026年8月20日</div>
+      </div>
+    </div>
 
-      <a class="card" href="JACET_HP_UserFlow_202505.html">
-        <div class="card-icon">🗺️</div>
-        <div class="card-body">
-          <h2>ユーザー動線フローレポート</h2>
-          <p>訪問者がどのページをどのように辿ったか<br>動線・離脱ポイントを可視化したレポート</p>
+    <!-- 1. ユーザー動線フロー -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon blue">🗺️</div>
+        <div>
+          <div class="section-title">ユーザー動線フロー</div>
+          <div class="section-desc">訪問者の経路・離脱ポイント分析（60日間データ）</div>
         </div>
-        <div class="card-arrow">›</div>
-      </a>
+      </div>
+      <div class="report-list">
+        <a class="report-card" href="JACET_HP_UserFlow_202505.html">
+          <div class="date-badge latest">2025年5月</div>
+          <div class="report-info">
+            <h3>ユーザー動線フローレポート <span class="tag-new">最新</span></h3>
+            <p>上位10エントリーページ・次ページ遷移・セッション終了ノード付き</p>
+          </div>
+          <div class="report-arrow">›</div>
+        </a>
+        <!-- 以降、定期タスクにより自動追加 -->
+      </div>
+    </div>
 
-      <a class="card" href="JACET_HP_International_202505.html">
-        <div class="card-icon">🌏</div>
-        <div class="card-body">
-          <h2>国際アクセス・新規ユーザー分析</h2>
-          <p>海外92カ国からのアクセス比較・新規ユーザー動向<br>会員登録コンバージョン測定に関する分析レポート</p>
+    <!-- 2. 総合アクセス分析 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon blue">📊</div>
+        <div>
+          <div class="section-title">総合アクセス分析</div>
+          <div class="section-desc">ページ別閲覧数・基本統計・流入チャネル（90日間データ）</div>
         </div>
-        <div class="card-arrow">›</div>
-      </a>
+      </div>
+      <div class="report-list">
+        <a class="report-card" href="JACET_HP_Analytics_Report_202505.html">
+          <div class="date-badge latest">2025年5月</div>
+          <div class="report-info">
+            <h3>総合アクセス分析レポート <span class="tag-new">最新</span></h3>
+            <p>アクティブユーザー9,065人・上位30ページ・エンゲージメント率46.2%</p>
+          </div>
+          <div class="report-arrow">›</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. 国際アクセス分析 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon green">🌏</div>
+        <div>
+          <div class="section-title">国際アクセス分析</div>
+          <div class="section-desc">国別ユーザー数・エンゲージメント比較・ボット除外分析</div>
+        </div>
+      </div>
+      <div class="report-list">
+        <a class="report-card" href="JACET_HP_International_202505.html">
+          <div class="date-badge latest">2025年5月</div>
+          <div class="report-info">
+            <h3>国際アクセス分析レポート <span class="tag-new">最新</span></h3>
+            <p>92か国からのアクセス・中国ボット除外後の実質海外ユーザー14%</p>
+          </div>
+          <div class="report-arrow">›</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. 新規ユーザー・コンバージョン -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon purple">👥</div>
+        <div>
+          <div class="section-title">新規ユーザー・コンバージョン分析</div>
+          <div class="section-desc">新規ユーザー率・入会ファネル・コンバージョン経路</div>
+        </div>
+      </div>
+      <div class="report-list">
+        <a class="report-card" href="JACET_HP_International_202505.html#new-users">
+          <div class="date-badge latest">2025年5月</div>
+          <div class="report-info">
+            <h3>新規ユーザー・コンバージョン分析 <span class="tag-new">最新</span></h3>
+            <p>新規ユーザー率99.7%・入会案内ページ到達604人・コンバージョン計測課題</p>
+          </div>
+          <div class="report-arrow">›</div>
+        </a>
+      </div>
     </div>
 
     <div class="footer">
-      <p>JACET ホームページ改訂委員会 © 2026</p>
+      <p>JACET ホームページ改訂委員会 © 2026 &nbsp;|&nbsp; Google Analytics 4 データ使用</p>
     </div>
   </div>
+
+  <script>
+    // アーカイブ展開トグル
+    document.querySelectorAll('.archive-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        const target = document.getElementById(btn.dataset.target);
+        if (target) target.classList.toggle('open');
+      });
+    });
+  </script>
 </body>
 </html>

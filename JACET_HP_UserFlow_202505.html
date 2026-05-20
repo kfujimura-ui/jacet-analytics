@@ -14,7 +14,6 @@
     font-size: 14px;
   }
 
-  /* ヘッダー */
   .header {
     background: linear-gradient(135deg, #003087 0%, #0055b3 100%);
     color: white;
@@ -24,13 +23,9 @@
   .header .meta { margin-top: 6px; font-size: 13px; opacity: 0.8; }
   .header .period { font-weight: 600; }
 
-  /* コンテンツ */
   .content { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
 
-  /* サマリーバー */
-  .summary-bar {
-    display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
-  }
+  .summary-bar { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
   .summary-card {
     background: white; border-radius: 10px; padding: 16px 20px;
     flex: 1; min-width: 180px;
@@ -41,13 +36,12 @@
   .summary-card .value { font-size: 24px; font-weight: 700; color: #003087; margin-top: 4px; }
   .summary-card .sub { font-size: 11px; color: #aaa; margin-top: 2px; }
 
-  /* セクション */
   .section { margin-bottom: 36px; }
   .section-title {
     font-size: 15px; font-weight: 700; color: #003087;
     margin-bottom: 16px; padding-bottom: 8px;
     border-bottom: 2px solid #e0e8f5;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   }
   .section-title .badge {
     background: #003087; color: white;
@@ -55,7 +49,6 @@
     font-weight: 600;
   }
 
-  /* フローコンテナ */
   .flow-container {
     background: white; border-radius: 12px;
     padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -66,7 +59,6 @@
     border-left: 3px solid #b0c8e8;
   }
 
-  /* フローグリッド（2カラム） */
   .flow-grid {
     display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0;
     align-items: start;
@@ -79,7 +71,6 @@
   .arrow-col { display: flex; align-items: center; justify-content: center; padding-top: 40px; }
   .arrow-col svg { opacity: 0.4; }
 
-  /* ノード */
   .node-list { display: flex; flex-direction: column; gap: 8px; }
   .node {
     border-radius: 8px; padding: 10px 14px;
@@ -95,50 +86,73 @@
     border: 1px solid #b8e8c4;
   }
   .node.target.top1 { background: linear-gradient(90deg, #daf3e3 0%, #f0fff5 100%); border-color: #7dd4a0; }
-  .node.muted {
-    background: #fafafa; border: 1px solid #e8e8e8; opacity: 0.75;
+  .node.muted { background: #fafafa; border: 1px solid #e8e8e8; opacity: 0.75; }
+
+  /* セッション終了ノード */
+  .node.session-end {
+    background: linear-gradient(90deg, #fff3f0 0%, #fff8f6 100%);
+    border: 1px solid #ffb8a8;
+    border-left: 3px solid #e05a3a;
   }
+  .node.session-end .node-path { color: #c0392b; }
+  .node.session-end .node-count { color: #c0392b; }
+  .session-end-label {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; color: #e05a3a; font-weight: 700;
+    background: #ffe8e3; padding: 2px 6px; border-radius: 4px; margin-top: 3px;
+  }
+
+  /* データ未取得プレースホルダー */
+  .node.data-pending {
+    background: #f7f7f7; border: 1px dashed #ccc; opacity: 0.6;
+  }
+  .node.data-pending .node-path { color: #aaa; font-style: italic; }
+  .pending-badge {
+    font-size: 10px; color: #aaa; background: #eeeeee;
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+  }
+
+  /* 離脱率バッジ */
+  .exit-rate-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 4px; margin-left: 6px;
+    vertical-align: middle;
+  }
+  .exit-rate-badge.high { background: #ffe8e3; color: #c0392b; }
+  .exit-rate-badge.mid  { background: #fff3cd; color: #856404; }
+  .exit-rate-badge.low  { background: #d4edda; color: #155724; }
+
   .node-path {
     font-size: 12px; font-family: 'Menlo', 'Monaco', monospace;
-    color: #2c3e50; font-weight: 500;
-    word-break: break-all;
+    color: #2c3e50; font-weight: 500; word-break: break-all;
   }
-  .node-name {
-    font-size: 11px; color: #666; margin-top: 2px;
-  }
-  .node-count {
-    font-size: 15px; font-weight: 700; color: #003087;
-    white-space: nowrap; flex-shrink: 0;
-  }
+  .node-name { font-size: 11px; color: #666; margin-top: 2px; }
+  .node-count { font-size: 15px; font-weight: 700; color: #003087; white-space: nowrap; flex-shrink: 0; }
   .node.target .node-count { color: #1a7a3f; }
+  .node.data-pending .node-count { color: #ccc; }
 
-  /* バー */
   .bar-wrap { margin-top: 6px; }
   .bar {
     height: 5px; border-radius: 3px;
     background: linear-gradient(90deg, #4a90d9, #7ab8f5);
-    transition: width 0.3s;
   }
   .node.target .bar { background: linear-gradient(90deg, #3aaa60, #72d49a); }
 
-  /* 2段フロー（A→B→C） */
-  .flow-3col {
-    display: grid;
-    grid-template-columns: 1fr 32px 1fr 32px 1fr;
-    align-items: start;
-  }
-  .flow-3col .flow-col-label { margin-bottom: 10px; }
-  .flow-3col .arrow-col { padding-top: 36px; }
-
-  /* 注記 */
   .note { font-size: 11px; color: #aaa; margin-top: 16px; padding: 8px 12px; background: #fafafa; border-radius: 6px; }
   .note strong { color: #888; }
 
-  /* インサイトボックス */
+  /* セッション終了の説明ボックス */
+  .termination-legend {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: #c0392b;
+    margin-top: 12px; padding: 7px 12px;
+    background: #fff3f0; border-radius: 6px;
+    border-left: 3px solid #e05a3a;
+  }
+
   .insight-box {
     background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
-    border: 1px solid #f0d060;
-    border-radius: 10px; padding: 20px 24px;
+    border: 1px solid #f0d060; border-radius: 10px; padding: 20px 24px;
     margin-bottom: 32px;
   }
   .insight-box h3 { font-size: 14px; color: #7a5f00; margin-bottom: 12px; }
@@ -148,16 +162,35 @@
   }
   .insight-item .icon { font-size: 16px; flex-shrink: 0; }
 
-  /* フッター */
+  /* データ未取得セクション */
+  .pending-section {
+    background: white; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 2px dashed #dde3ee;
+  }
+  .pending-section .pending-notice {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #f0f4ff; border-radius: 8px; padding: 14px 16px;
+    font-size: 12px; color: #4a5568; line-height: 1.7;
+  }
+  .pending-section .pending-icon { font-size: 20px; flex-shrink: 0; }
+  .pending-stats {
+    display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap;
+  }
+  .pending-stat {
+    background: #f7f9fc; border: 1px solid #dde3ee; border-radius: 8px;
+    padding: 10px 16px; font-size: 12px;
+  }
+  .pending-stat strong { display: block; font-size: 18px; color: #003087; }
+
   .footer {
     text-align: center; padding: 20px; color: #bbb; font-size: 11px;
     border-top: 1px solid #e8e8e8; margin-top: 16px;
   }
 
-  /* 印刷 */
   @media print {
     body { background: white; }
-    .flow-container { box-shadow: none; border: 1px solid #ddd; }
+    .flow-container, .pending-section { box-shadow: none; border: 1px solid #ddd; }
   }
 </style>
 </head>
@@ -166,7 +199,7 @@
 <div class="header">
   <h1>JACET HP ユーザー動線レポート</h1>
   <div class="meta">
-    <span class="period">2026年3月22日〜 2026年5月18日（経路データ探索・取得可能期間）</span> ｜
+    <span class="period">2026年3月22日〜 2026年5月18日（経路データ探索・取得可能期間 最大60日）</span> ｜
     データソース：Google Analytics 4 経路データ探索
   </div>
 </div>
@@ -181,17 +214,17 @@
       <div class="sub">session_start イベント</div>
     </div>
     <div class="summary-card">
-      <div class="label">最初に訪れるページ（上位）</div>
+      <div class="label">最多入り口ページ</div>
       <div class="value">/job-openings/</div>
       <div class="sub">4,078件（35%）がここから</div>
     </div>
     <div class="summary-card">
-      <div class="label">トップページ経由のセッション</div>
+      <div class="label">トップページ経由</div>
       <div class="value">3,212</div>
       <div class="sub">全体の28%</div>
     </div>
     <div class="summary-card">
-      <div class="label">大会ページへの直接流入</div>
+      <div class="label">大会ページ直接流入</div>
       <div class="value">712</div>
       <div class="sub">/convention/2026-2/</div>
     </div>
@@ -202,31 +235,38 @@
     <h3>💡 主なインサイト</h3>
     <div class="insight-item">
       <span class="icon">🔍</span>
-      <span><strong>求人情報が最大の入口：</strong>/job-openings/ が全セッションの35%（4,078件）の最初のページ。多くが外部検索から直接アクセスしており、一般向けの入口として機能している。</span>
+      <span><strong>求人情報が最大の入口かつ高離脱：</strong>/job-openings/ が全セッションの35%（4,078件）の最初のページ。離脱率44.3%と高く、約1,807件がそのまま離脱していると推定。</span>
     </div>
     <div class="insight-item">
       <span class="icon">🏠</span>
-      <span><strong>トップページ経由のユーザーは「求人」「大会」「入会」へ：</strong>トップページ (/) を最初に訪れた3,212件のユーザーは、次に求人(683)・大会(266)・入会方法(139)へ移動。第65回大会情報(/info/jacet65th-2/)も103件と注目されている。</span>
+      <span><strong>トップページ経由のユーザーは「求人」「大会」「入会」へ：</strong>3,212件のうち約819件（25.5%）が離脱。残りの2,393件が各コンテンツへ移動し、求人(683)・大会(266)・入会方法(139)・役員(118)の順。</span>
     </div>
     <div class="insight-item">
       <span class="icon">📋</span>
-      <span><strong>大会ページ訪問者の最多次行動は「Call for Papers」：</strong>/convention/2026-2/ を訪れた712件のうち、次のページへ進んだ最多は Call for Papers（closed）(66件)。締め切り後も参照されている。</span>
+      <span><strong>大会ページ訪問者の最多次行動は「Call for Papers」：</strong>/convention/2026-2/ を訪れた712件のうち離脱率24.1%（約172件離脱）。継続閲覧の最多はCall for Papers（66件）、For Supporting Members（47件）。</span>
     </div>
     <div class="insight-item">
-      <span class="icon">📖</span>
-      <span><strong>紀要ページからの継続閲覧：</strong>/publication/jacet-journal/ (165件) を最初のページとして訪れたユーザーのうち、次ページへ進んだのは84件（51%）。半数以上が関連ページも閲覧している。</span>
+      <span class="icon">⚠️</span>
+      <span><strong>入会案内の離脱率が最も高い（45.9%）：</strong>/about_jacet/how_to_join_jacet/ は530件の入口に対し約243件が離脱。入会直前ページとして最も重要だが、次のアクションへの誘導が弱い可能性。</span>
+    </div>
+    <div class="insight-item">
+      <span class="icon">🔴</span>
+      <span><strong>セッション終了の読み方：</strong>各フロー図の末尾にある<span style="color:#e05a3a;font-weight:bold">「セッション終了（離脱）」</span>行は、そのページで次のページへ移動せずに終了したセッションの推定数です（バウンス率から算出）。</span>
     </div>
   </div>
 
-  <!-- セクション1: セッション開始→最初のページ -->
+  <!-- ========================================================
+       セクション1: セッション開始 → 最初のページ（上位10）
+       ======================================================== -->
   <div class="section">
     <div class="section-title">
       <span>セッション開始後、最初に見るページ</span>
-      <span class="badge">上位6ページ</span>
+      <span class="badge">上位10ページ（うち5件は次回更新で追加）</span>
     </div>
     <div class="flow-container">
       <div class="flow-description">
-        ユーザーがJACET HPを訪問したとき、最初に着地するページの分布（2026年3月22日〜5月18日）
+        ユーザーがJACET HPを訪問したとき、最初に着地するページの分布（2026年3月22日〜5月18日）。
+        <strong>離脱率バッジ</strong>は各ページでのバウンス率（単一ページ訪問で終了した割合）を示す。
       </div>
 
       <div class="flow-grid">
@@ -253,63 +293,123 @@
         <div>
           <div class="flow-col-label">最初のページ（ステップ+1）</div>
           <div class="node-list">
+
             <div class="node target top1">
-              <div>
-                <div class="node-path">/job-openings/</div>
-                <div class="node-name">求人情報</div>
+              <div style="flex:1">
+                <div class="node-path">/job-openings/
+                  <span class="exit-rate-badge high">離脱率 44.3%</span>
+                </div>
+                <div class="node-name">求人情報 — 推定約1,807件が離脱</div>
                 <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
               </div>
               <div class="node-count">4,078</div>
             </div>
+
             <div class="node target">
-              <div>
-                <div class="node-path">/</div>
-                <div class="node-name">ホーム（トップページ）</div>
+              <div style="flex:1">
+                <div class="node-path">/
+                  <span class="exit-rate-badge low">離脱率 25.5%</span>
+                </div>
+                <div class="node-name">ホーム（トップページ） — 推定約819件が離脱</div>
                 <div class="bar-wrap"><div class="bar" style="width:79%"></div></div>
               </div>
               <div class="node-count">3,212</div>
             </div>
+
             <div class="node target">
-              <div>
-                <div class="node-path">/convention/2026-2/</div>
-                <div class="node-name">第65回国際大会 2026</div>
+              <div style="flex:1">
+                <div class="node-path">/convention/2026-2/
+                  <span class="exit-rate-badge low">離脱率 24.1%</span>
+                </div>
+                <div class="node-name">第65回国際大会 2026 — 推定約172件が離脱</div>
                 <div class="bar-wrap"><div class="bar" style="width:18%"></div></div>
               </div>
               <div class="node-count">712</div>
             </div>
+
             <div class="node target">
-              <div>
-                <div class="node-path">/about_jacet/how_to_join_jacet/</div>
-                <div class="node-name">入会方法（How to join JACET）</div>
+              <div style="flex:1">
+                <div class="node-path">/about_jacet/how_to_join_jacet/
+                  <span class="exit-rate-badge high">離脱率 45.9%</span>
+                </div>
+                <div class="node-name">入会方法（How to join JACET） — 推定約243件が離脱</div>
                 <div class="bar-wrap"><div class="bar" style="width:13%"></div></div>
               </div>
               <div class="node-count">530</div>
             </div>
+
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/publication/jacet-journal/</div>
-                <div class="node-name">JACET Journal（英語教育研究）</div>
+                <div class="node-name">JACET Journal（英語教育研究）— 次ページ継続率 51%</div>
                 <div class="bar-wrap"><div class="bar" style="width:4%"></div></div>
               </div>
               <div class="node-count">165</div>
             </div>
+
+            <!-- 6〜10位：次回更新で追加 -->
+            <div class="node data-pending">
+              <div style="flex:1">
+                <div class="node-path">6位〜10位（計 2,920件に含まれる）</div>
+                <div class="node-name">次回定期更新（2026年7月）で上位10ページを個別取得予定</div>
+              </div>
+              <span class="pending-badge">次回更新</span>
+            </div>
+
             <div class="node muted">
               <div>
-                <div class="node-path">その他15ページ</div>
+                <div class="node-path">その他（11位以降）</div>
               </div>
               <div class="node-count" style="color:#aaa">2,920</div>
             </div>
+
           </div>
         </div>
       </div>
 
+      <div class="termination-legend">
+        🔴 <strong>「離脱率」</strong>とは：そのページだけ見てサイトを離れたセッションの割合（バウンス率）。推定件数 = 入口セッション数 × 離脱率。
+      </div>
       <div class="note">
-        <strong>読み方：</strong>各セッション開始時に「最初に着地したページ」の件数。外部検索からの直接流入が多いページほど上位に出やすい。
+        <strong>読み方：</strong>各セッション開始時に「最初に着地したページ」の件数。外部検索からの直接流入が多いページほど上位になる。離脱率はGA4ページパフォーマンスレポートから取得。
       </div>
     </div>
   </div>
 
-  <!-- セクション2: トップページからの動線 -->
+  <!-- ========================================================
+       セクション2: 求人ページ /job-openings/ からの動線
+       ======================================================== -->
+  <div class="section">
+    <div class="section-title">
+      <span>求人ページ <code style="font-size:13px;color:#003087">/job-openings/</code> を訪問後の動き</span>
+      <span class="badge">次回更新で追加</span>
+    </div>
+    <div class="pending-section">
+      <div class="pending-notice">
+        <span class="pending-icon">🔄</span>
+        <div>
+          <strong>このセクションのデータは次回定期更新（2026年7月21日）で取得予定です。</strong><br>
+          求人ページ（/job-openings/）は全セッションの35%が最初に着地する最重要入り口ですが、「次にどのページへ移動するか」の詳細データは今回の取得範囲に含まれていませんでした。
+          次回、GA4経路データ探索で求人ページを起点とした動線を取得し、このセクションを更新します。
+        </div>
+      </div>
+      <div class="pending-stats">
+        <div class="pending-stat">
+          <strong>4,078件</strong>セッション開始（入り口として）
+        </div>
+        <div class="pending-stat">
+          <strong>44.3%</strong>離脱率 — 約1,807件が1ページで終了
+        </div>
+        <div class="pending-stat">
+          <strong>約2,271件</strong>が次のページへ移動（次回で詳細判明）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       セクション3: トップページ / からの動線
+       ======================================================== -->
   <div class="section">
     <div class="section-title">
       <span>トップページ <code style="font-size:13px;color:#003087">/</code> を訪問後の動き</span>
@@ -344,8 +444,9 @@
         <div>
           <div class="flow-col-label">次に見るページ（ステップ+2）</div>
           <div class="node-list">
+
             <div class="node target top1">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/job-openings/</div>
                 <div class="node-name">求人情報</div>
                 <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
@@ -353,7 +454,7 @@
               <div class="node-count">683</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/convention/2026-2/</div>
                 <div class="node-name">第65回国際大会 2026</div>
                 <div class="bar-wrap"><div class="bar" style="width:39%"></div></div>
@@ -361,7 +462,7 @@
               <div class="node-count">266</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/about_jacet/how_to_join_jacet/</div>
                 <div class="node-name">入会方法</div>
                 <div class="bar-wrap"><div class="bar" style="width:20%"></div></div>
@@ -369,7 +470,7 @@
               <div class="node-count">139</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/about_jacet/executives/</div>
                 <div class="node-name">役員一覧</div>
                 <div class="bar-wrap"><div class="bar" style="width:17%"></div></div>
@@ -377,7 +478,7 @@
               <div class="node-count">118</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/info/jacet65th-2/</div>
                 <div class="node-name">第65回大会情報</div>
                 <div class="bar-wrap"><div class="bar" style="width:15%"></div></div>
@@ -385,22 +486,35 @@
               <div class="node-count">103</div>
             </div>
             <div class="node muted">
-              <div>
-                <div class="node-path">その他15ページ</div>
-              </div>
+              <div><div class="node-path">その他15ページ</div></div>
               <div class="node-count" style="color:#aaa">1,128</div>
             </div>
+
+            <!-- セッション終了ノード -->
+            <div class="node session-end">
+              <div style="flex:1">
+                <div class="node-path">セッション終了（離脱）</div>
+                <div class="node-name">
+                  <span class="session-end-label">🔴 バウンス率 25.5% から算出</span>
+                  トップページのみ閲覧してサイトを離脱
+                </div>
+              </div>
+              <div class="node-count">約819件</div>
+            </div>
+
           </div>
         </div>
       </div>
 
       <div class="note">
-        <strong>考察：</strong>トップページから求人情報(683件)が最多。次いで大会ページ(266件)、入会方法(139件)、役員一覧(118件)の順。第65回大会情報(/info/jacet65th-2/)も103件と新たに上位入り。「JACETを知って情報収集する」ユーザー像が見え、大会への関心の高さを反映している。
+        <strong>考察：</strong>トップページから求人情報(683件)が最多。次いで大会ページ(266件)、入会方法(139件)、役員一覧(118件)の順。第65回大会情報も103件。約819件（25.5%）はトップページのみで離脱しており、ファーストビューの改善が有効と考えられる。
       </div>
     </div>
   </div>
 
-  <!-- セクション3: 大会ページからの動線 -->
+  <!-- ========================================================
+       セクション4: 大会ページからの動線
+       ======================================================== -->
   <div class="section">
     <div class="section-title">
       <span>大会ページ <code style="font-size:13px;color:#003087">/convention/2026-2/</code> を訪問後の動き</span>
@@ -435,8 +549,9 @@
         <div>
           <div class="flow-col-label">次に見るページ（ステップ+2）</div>
           <div class="node-list">
+
             <div class="node target top1">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/convention/2026-2/call-for-papers-closed/</div>
                 <div class="node-name">Call for Papers（締切済）</div>
                 <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
@@ -444,7 +559,7 @@
               <div class="node-count">66</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/</div>
                 <div class="node-name">ホーム（トップページに戻る）</div>
                 <div class="bar-wrap"><div class="bar" style="width:89%"></div></div>
@@ -452,7 +567,7 @@
               <div class="node-count">59</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/convention/2026-2/for-supporting-members/</div>
                 <div class="node-name">For Supporting Members（賛助会員向け）</div>
                 <div class="bar-wrap"><div class="bar" style="width:71%"></div></div>
@@ -460,7 +575,7 @@
               <div class="node-count">47</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/convention/</div>
                 <div class="node-name">大会一覧（トップ）</div>
                 <div class="bar-wrap"><div class="bar" style="width:27%"></div></div>
@@ -468,7 +583,7 @@
               <div class="node-count">18</div>
             </div>
             <div class="node target">
-              <div>
+              <div style="flex:1">
                 <div class="node-path">/convention/2026-2/jaal-in-jacet-call-for-papers/</div>
                 <div class="node-name">JAAL in JACET Call for Papers</div>
                 <div class="bar-wrap"><div class="bar" style="width:26%"></div></div>
@@ -476,17 +591,90 @@
               <div class="node-count">17</div>
             </div>
             <div class="node muted">
-              <div>
-                <div class="node-path">その他15ページ</div>
-              </div>
+              <div><div class="node-path">その他15ページ</div></div>
               <div class="node-count" style="color:#aaa">112</div>
             </div>
+
+            <!-- セッション終了ノード -->
+            <div class="node session-end">
+              <div style="flex:1">
+                <div class="node-path">セッション終了（離脱）</div>
+                <div class="node-name">
+                  <span class="session-end-label">🔴 バウンス率 24.1% から算出</span>
+                  大会ページのみ閲覧してサイトを離脱
+                </div>
+              </div>
+              <div class="node-count">約172件</div>
+            </div>
+
           </div>
         </div>
       </div>
 
       <div class="note">
-        <strong>考察：</strong>大会ページからは Call for Papers(66件)、For Supporting Members(47件)への移動が最多。大会一覧への回遊(18件)やJAAL in JACET(17件)も引き続き参照されている。59件がトップページに戻っており、離脱・再探索の可能性も。
+        <strong>考察：</strong>Call for Papers(66件)、For Supporting Members(47件)への移動が最多。59件がトップページに戻っており、再探索またはブラウザバックによる離脱の可能性。約172件（24.1%）は大会ページのみで終了。
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       セクション5: 入会案内ページからの動線
+       ======================================================== -->
+  <div class="section">
+    <div class="section-title">
+      <span>入会案内ページ <code style="font-size:13px;color:#003087">/about_jacet/how_to_join_jacet/</code> を訪問後の動き</span>
+      <span class="badge">次回更新で追加</span>
+    </div>
+    <div class="pending-section">
+      <div class="pending-notice">
+        <span class="pending-icon">🔄</span>
+        <div>
+          <strong>このセクションのデータは次回定期更新（2026年7月21日）で取得予定です。</strong><br>
+          入会案内ページはコンバージョン直前の最重要ページで、離脱率45.9%と全主要ページ中で最も高い値を示しています。
+          次のページへ移動した残り54.1%がどこへ向かうか（フォームページか、他の案内ページか）の把握が急務です。
+        </div>
+      </div>
+      <div class="pending-stats">
+        <div class="pending-stat">
+          <strong>530件</strong>セッション開始（入り口として）
+        </div>
+        <div class="pending-stat">
+          <strong>45.9%</strong>離脱率 — 約243件が1ページで終了
+        </div>
+        <div class="pending-stat">
+          <strong style="color:#e05a3a">最高離脱率</strong>全主要ページ中で最も高い
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       セクション6: 紀要ページからの動線
+       ======================================================== -->
+  <div class="section">
+    <div class="section-title">
+      <span>紀要ページ <code style="font-size:13px;color:#003087">/publication/jacet-journal/</code> を訪問後の動き</span>
+      <span class="badge">次回更新で詳細追加</span>
+    </div>
+    <div class="pending-section">
+      <div class="pending-notice">
+        <span class="pending-icon">📖</span>
+        <div>
+          <strong>次のページの詳細は次回定期更新（2026年7月21日）で取得予定です。</strong><br>
+          紀要ページ（/publication/jacet-journal/）を最初に訪れた165件のうち84件（51%）が次ページへ継続閲覧しており、エンゲージメントの高さが確認されています。
+          どのページへ移動したかの詳細データを次回取得します。
+        </div>
+      </div>
+      <div class="pending-stats">
+        <div class="pending-stat">
+          <strong>165件</strong>セッション開始（入り口として）
+        </div>
+        <div class="pending-stat">
+          <strong>51%</strong>が次のページへ継続閲覧（高エンゲージ）
+        </div>
+        <div class="pending-stat">
+          <strong>約84件</strong>が追加ページを閲覧
+        </div>
       </div>
     </div>
   </div>
@@ -494,16 +682,18 @@
   <!-- データ注記 -->
   <div style="background:white;border-radius:10px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);font-size:12px;color:#888;line-height:1.8;">
     <strong style="color:#555">【データについて】</strong><br>
-    ・期間：2026年3月22日〜5月18日（GA4経路データ探索の保持期間の制約により3月22日以前のデータは取得不可）<br>
+    ・経路データ期間：2026年3月22日〜5月18日（GA4経路データ探索の保持期間の制約により最大60日前のデータまで取得可能）<br>
     ・ツール：Google Analytics 4「経路データ探索」（ページパスとスクリーン クラス）<br>
+    ・離脱率（バウンス率）：GA4ページパフォーマンスレポートより取得<br>
     ・始点はセッション開始イベント(session_start)、ステップ+1が最初のページ、ステップ+2が選択ページ経由後の次ページ<br>
-    ・「他○個」はページ数が多いため省略されたグループ。実際にはさらに多くのページへの動線が存在する
+    ・「セッション終了（推定）」件数 = 起点のセッション数 × バウンス率（概算）<br>
+    ・「次回更新で追加」と記載のセクションは2026年7月21日の定期更新で追加予定
   </div>
 
 </div>
 
 <div class="footer">
-  JACET HP ユーザー動線レポート ｜ 作成日：2026年5月19日 ｜ JACET中部支部事務局
+  JACET HP ユーザー動線レポート ｜ 作成日：2026年5月20日 ｜ JACET中部支部事務局 ｜ 次回更新：2026年7月21日
 </div>
 
 </body>
