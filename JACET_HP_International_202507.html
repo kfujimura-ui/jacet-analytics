@@ -102,9 +102,9 @@
         <div class="kpi-sub">前回 9,065</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">新規ユーザー数</div>
+        <div class="kpi-label">新規ユーザー数（累計）</div>
         <div class="kpi-value">14,583</div>
-        <div class="kpi-sub">ほぼ全員が初回訪問</div>
+        <div class="kpi-sub">初回訪問イベントの累計 ※下記注記</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">アクセスのあった国・地域数</div>
@@ -244,8 +244,8 @@
     <div class="two-col">
       <div class="stat-card">
         <div class="big">14,583</div>
-        <div class="label">新規ユーザー数（2026年1〜7月 累計）</div>
-        <div class="sub">全アクティブユーザー14,487名のうち<br><strong>ほぼ全員が新規訪問者</strong></div>
+        <div class="label">新規ユーザー数（2026年2月GA設置〜7月 累計）</div>
+        <div class="sub">「初回訪問イベント」の累計カウント。<br>リピーターが居ない意味ではない（下記注記）</div>
       </div>
       <div class="stat-card">
         <div class="big" style="color:#27ae60;">106</div>
@@ -290,6 +290,18 @@
     </div>
 
     <p class="note">※「入会方法」ページ：アクティブユーザー966名・表示回数2,204回（累計）。「入会申込」ページ（/jacet_admission/）：アクティブユーザー228名・表示回数657回。前回（入会方法 604名・1,398回）から増加しており、入会検討層は着実に拡大している。</p>
+
+    <div class="warn-box" style="margin-top:20px;">
+      ⚠️ <strong>「新規ユーザー数」の読み方（重要な注意）：</strong><br>
+      上記の「新規ユーザー数」は、期間中に<strong>初回訪問イベント（first_visit）が発生したユーザーの累計カウント</strong>です。
+      GA4を2026年2月に設置したばかりのため、累計で見るとほぼ全員の初回訪問がこの期間内に入り、
+      構造上どうしても新規数がアクティブユーザー数とほぼ同数になります。<strong>これは「リピーターが居ない」という意味ではありません。</strong><br><br>
+      実際、「新規 / 既存」ディメンションで実測すると、直近28日間（6/23〜7/20）だけで
+      <strong>既存（リピーター）759名（アクティブの約24%）</strong>、新規2,417名という内訳で、リピーターは確実に存在します。
+      GA4がリピーターを過小計測しやすい要因（Safari/iOSのITPによる識別Cookieの短期消失、Cookie同意前の未計測、複数端末・複数ブラウザ、シークレットモード等）もあり、
+      実際のリピーター率はこれより高い可能性があります。<br><br>
+      <strong>推奨：</strong>リピーター率を正確に把握するには、GA4「維持率（Retention）」レポートを主指標にし、Google シグナル／User-ID を有効化してクロス端末識別を高めることが有効です。
+    </div>
   </div>
 
   <!-- Section 3: Membership Conversion -->
