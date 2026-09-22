@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JACET HP アクセス解析レポート（2026年2月〜9月）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    font-size: 14px; color: #333; background: #f5f5f5; padding: 30px;
+  }
+  .page { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+  .header { background: #1a3a6b; color: #fff; padding: 36px 40px 28px; }
+  .header-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+  .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .header .period { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .kpi-section { padding: 28px 40px; background: #f8f9fc; border-bottom: 1px solid #e8eaf0; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kpi-card { background: #fff; border-radius: 8px; padding: 20px; border: 1px solid #e8eaf0; text-align: center; }
+  .kpi-label { font-size: 11px; color: #888; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: #1a3a6b; }
+  .kpi-sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+  .section { padding: 28px 40px; border-bottom: 1px solid #eef0f5; }
+  .section-title { font-size: 16px; font-weight: 700; color: #1a3a6b; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid #e8eaf0; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; display: inline-block; width: 4px; height: 18px; background: #1a3a6b; border-radius: 2px; }
+  .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab-btn { padding: 7px 20px; border: 1px solid #d0d5e8; background: #f4f6fb; color: #666; border-radius: 6px 6px 0 0; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; border-bottom: none; }
+  .tab-btn.active { background: #1a3a6b; color: #fff; border-color: #1a3a6b; }
+  .tab-btn:hover:not(.active) { background: #e8eaf8; color: #1a3a6b; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { background: #1a3a6b; color: #fff; }
+  thead th { padding: 9px 10px; text-align: right; font-weight: 600; font-size: 11px; letter-spacing: 0.3px; white-space: nowrap; }
+  thead th:first-child, thead th:nth-child(2) { text-align: left; }
+  tbody tr { border-bottom: 1px solid #f0f0f0; transition: background 0.15s; }
+  tbody tr:hover { background: #f5f7fb; }
+  tbody tr:nth-child(even) { background: #fafafa; }
+  tbody tr:nth-child(even):hover { background: #f5f7fb; }
+  tbody td { padding: 9px 10px; text-align: right; color: #444; vertical-align: middle; }
+  tbody td:first-child { text-align: center; color: #999; font-size: 12px; width: 32px; }
+  tbody td:nth-child(2) { text-align: left; color: #1a3a6b; font-weight: 500; }
+  .url-cell { font-size: 10.5px; color: #888 !important; font-weight: normal !important; margin-top: 2px; }
+  .rank-1 td:nth-child(2) { color: #c0392b !important; }
+  .rank-2 td:nth-child(2) { color: #2980b9 !important; }
+  .rank-3 td:nth-child(2) { color: #27ae60 !important; }
+  .highlight { background: #fff8e1 !important; }
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .insight-card { background: #f8f9fc; border-left: 4px solid #1a3a6b; border-radius: 0 6px 6px 0; padding: 16px 18px; }
+  .insight-card.warn { border-color: #e67e22; }
+  .insight-card.good { border-color: #27ae60; }
+  .insight-title { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .insight-text { font-size: 13px; color: #444; line-height: 1.6; }
+  /* comparison table */
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+  .cmp-table th { background: #f0f3fa; padding: 9px 12px; font-size: 11px; color: #666; text-align: right; font-weight: 600; border-bottom: 2px solid #e0e4f0; }
+  .cmp-table th:first-child { text-align: left; }
+  .cmp-table td { padding: 9px 12px; text-align: right; border-bottom: 1px solid #f0f2f7; font-variant-numeric: tabular-nums; }
+  .cmp-table td:first-child { text-align: left; color: #1a3a6b; font-weight: 500; }
+  .up { color: #27ae60; font-weight: 600; }
+  .cmp-note { background: #eaf3ff; border-left: 4px solid #2e86de; border-radius: 4px; padding: 14px 18px; margin-top: 16px; font-size: 13px; line-height: 1.8; color: #2c3e50; }
+  .cmp-note strong { color: #1a3a6b; }
+  .footer { background: #f8f9fc; padding: 20px 40px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #e8eaf0; }
+  @media print { body { background: #fff; padding: 0; } .page { box-shadow: none; border-radius: 0; } .tab-btn { display: none; } .tab-panel { display: block !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-tag">Google Analytics Report</div>
+    <h1>JACET HP アクセス解析レポート</h1>
+    <div class="period">集計期間：2026年2月（GA設置以降）〜 2026年9月21日｜累計データ　／　更新日：2026年9月22日</div>
+  </div>
+
+  <!-- KPI Summary -->
+  <div class="kpi-section">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">ページ閲覧数（合計）</div>
+        <div class="kpi-value">97,592</div>
+        <div class="kpi-sub">全ページ合算（前回 60,640）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">アクティブユーザー数</div>
+        <div class="kpi-value">22,184</div>
+        <div class="kpi-sub">うち新規 22,242名</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">平均エンゲージメント時間</div>
+        <div class="kpi-value">1分12秒</div>
+        <div class="kpi-sub">ユーザーあたり平均 4.40 PV</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison with previous -->
+  <div class="section">
+    <div class="section-title">前回レポート（2026年2月〜7月20日 累計）との比較</div>
+    <table class="cmp-table">
+      <thead>
+        <tr><th>指標（GA設置以降の累計）</th><th>前回（〜7/20）</th><th>今回（〜9/21）</th><th>増加</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ページ閲覧数（合計）</td><td>60,640</td><td>97,592</td><td class="up">+36,952</td></tr>
+        <tr><td>アクティブユーザー数</td><td>14,487</td><td>22,184</td><td class="up">+7,697</td></tr>
+        <tr><td>新規ユーザー数</td><td>14,583</td><td>22,242</td><td class="up">+7,659</td></tr>
+        <tr><td>セッション数</td><td>—（前回未取得）</td><td>51,673</td><td>—</td></tr>
+        <tr><td>エンゲージメント率</td><td>54.3%</td><td>56.1%</td><td class="up">+1.8pt</td></tr>
+        <tr><td>ユーザーあたりPV</td><td>4.19</td><td>4.40</td><td class="up">+0.21</td></tr>
+        <tr><td>平均エンゲージメント時間</td><td>1分11秒</td><td>1分12秒</td><td class="up">+1秒</td></tr>
+      </tbody>
+    </table>
+    <div class="cmp-note">
+      📈 <strong>2か月で約37,000PV・約7,700ユーザーを上積み。</strong>今回の追加分（7/21〜9/21）は前回の追加分（5/19〜7/20：約38,000PV・約8,800ユーザー）とほぼ同規模で、8月下旬の第65回国際大会（大阪）の開催期間を含む。ユーザーあたりPVは4.19→4.40、エンゲージメント率は54.3%→56.1%へ上昇し、大会期でも回遊の質は維持・向上した。
+    </div>
+  </div>
+
+  <!-- Traffic channels -->
+  <div class="section">
+    <div class="section-title">流入チャネル（セッションのデフォルト チャネル グループ）</div>
+    <table class="cmp-table">
+      <thead>
+        <tr><th>チャネル</th><th>セッション</th><th>構成比</th><th>エンゲージメント率</th><th>セッションあたり平均エンゲージメント時間</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Organic Search（自然検索）</td><td>27,207</td><td>52.7%</td><td>66.0%</td><td>41秒</td></tr>
+        <tr><td>Direct（直接・ブックマーク等）</td><td>23,268</td><td>45.0%</td><td>44.8%</td><td>17秒</td></tr>
+        <tr><td>Referral（他サイトからのリンク）</td><td>1,396</td><td>2.7%</td><td>62.2%</td><td>40秒</td></tr>
+        <tr><td>Organic Social（SNS）</td><td>544</td><td>1.1%</td><td>36.2%</td><td>12秒</td></tr>
+        <tr><td>Unassigned</td><td>204</td><td>0.4%</td><td>18.6%</td><td>22秒</td></tr>
+        <tr><td>AI Assistant（ChatGPT等の生成AI経由）</td><td>188</td><td>0.4%</td><td>53.7%</td><td>37秒</td></tr>
+        <tr><td><strong>合計</strong></td><td><strong>51,673</strong></td><td>100%</td><td>56.1%</td><td>31秒</td></tr>
+      </tbody>
+    </table>
+    <div class="cmp-note">
+      🔎 <strong>検索と直接流入で全体の98%。</strong>自然検索（52.7%）はエンゲージメント率66%と質が高い一方、Direct（45.0%）は44.8%・17秒と低く、中国発ボットの多くがここに含まれると考えられる。SNS経由は1.1%にとどまり、Facebook・X等での告知がサイト流入にほとんど結びついていない。「AI Assistant」（188セッション）はGA4が2026年に新設したチャネルで、生成AIの回答経由の来訪が計測され始めている。
+    </div>
+  </div>
+
+  <!-- Top Pages Table -->
+  <div class="section">
+    <div class="section-title">ページ別アクセス数・エンゲージメント（上位30ページ）</div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('t1')">1〜15位</button>
+      <button class="tab-btn" onclick="switchTab('t2')">16〜30位</button>
+    </div>
+
+    <!-- Tab 1: 1-15 -->
+    <div id="tab-t1" class="tab-panel active">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>ページ名 / URL</th><th>閲覧数</th><th>構成比</th>
+          <th>アクティブ<br>ユーザー</th><th>PV/<br>ユーザー</th><th>平均<br>滞在時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rank-1"><td>1</td><td><div>Job Openings（求人）</div><div class="url-cell">jacet.org/job-openings/</div></td><td>23,466</td><td>24.0%</td><td>4,971</td><td>4.72</td><td>1分04秒</td></tr>
+        <tr class="rank-2"><td>2</td><td><div>JACET（トップページ）</div><div class="url-cell">jacet.org/</div></td><td>18,814</td><td>19.3%</td><td>7,741</td><td>2.43</td><td>30秒</td></tr>
+        <tr class="rank-3"><td>3</td><td><div>2026 Convention（第65回国際大会）</div><div class="url-cell">jacet.org/convention/2026-2/</div></td><td>9,003</td><td>9.2%</td><td>4,125</td><td>2.18</td><td>51秒</td></tr>
+        <tr><td>4</td><td><div>Conference Program | 2026 Convention（大会プログラム）</div><div class="url-cell">jacet.org/convention/2026-2/conference-program/</div></td><td>4,992</td><td>5.1%</td><td>2,101</td><td>2.38</td><td>28秒</td></tr>
+        <tr><td>5</td><td><div>How to join JACET（入会方法）</div><div class="url-cell">jacet.org/about_jacet/how_to_join_jacet/</div></td><td>2,595</td><td>2.7%</td><td>1,192</td><td>2.18</td><td>1分04秒</td></tr>
+        <tr><td>6</td><td><div>65th 大会情報 第3報</div><div class="url-cell">jacet.org/info/jacet65th-3/</div></td><td>2,114</td><td>2.2%</td><td>1,312</td><td>1.61</td><td>39秒</td></tr>
+        <tr><td>7</td><td><div>Convention（大会一覧）</div><div class="url-cell">jacet.org/convention/</div></td><td>1,976</td><td>2.0%</td><td>1,176</td><td>1.68</td><td>15秒</td></tr>
+        <tr><td>8</td><td><div>About JACET</div><div class="url-cell">jacet.org/about_jacet/</div></td><td>1,231</td><td>1.3%</td><td>943</td><td>1.31</td><td>19秒</td></tr>
+        <tr><td>9</td><td><div>Call for Papers (closed) | 2026 Convention</div><div class="url-cell">jacet.org/convention/2026-2/call-for-papers-closed/</div></td><td>1,172</td><td>1.2%</td><td>744</td><td>1.58</td><td>23秒</td></tr>
+        <tr><td>10</td><td><div>JAAL in JACET Call for Papers</div><div class="url-cell">jacet.org/convention/2026-2/jaal-in-jacet-call-for-papers/</div></td><td>1,028</td><td>1.1%</td><td>552</td><td>1.86</td><td>36秒</td></tr>
+        <tr><td>11</td><td><div>JACET Journal（紀要）</div><div class="url-cell">jacet.org/publication/jacet-journal/</div></td><td>1,021</td><td>1.0%</td><td>576</td><td>1.77</td><td>25秒</td></tr>
+        <tr><td>12</td><td><div>Executives（役員一覧）</div><div class="url-cell">jacet.org/about_jacet/executives/</div></td><td>954</td><td>1.0%</td><td>490</td><td>1.95</td><td>9秒</td></tr>
+        <tr><td>13</td><td><div>65th 大会情報 第6報</div><div class="url-cell">jacet.org/info/jacet65th-6/</div></td><td>937</td><td>1.0%</td><td>672</td><td>1.39</td><td>12秒</td></tr>
+        <tr><td>14</td><td><div>65th 大会情報 第1報（Call for Papers）</div><div class="url-cell">jacet.org/info/jacet65th-1/</div></td><td>903</td><td>0.9%</td><td>689</td><td>1.31</td><td>22秒</td></tr>
+        <tr><td>15</td><td><div>SIG List</div><div class="url-cell">jacet.org/sig/sig-list/</div></td><td>867</td><td>0.9%</td><td>489</td><td>1.77</td><td>1分02秒</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- Tab 2: 16-30 -->
+    <div id="tab-t2" class="tab-panel">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>ページ名 / URL</th><th>閲覧数</th><th>構成比</th>
+          <th>アクティブ<br>ユーザー</th><th>PV/<br>ユーザー</th><th>平均<br>滞在時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td>16</td><td><div>Admission（入会申込）</div><div class="url-cell">jacet.org/jacet_admission/</div></td><td>826</td><td>0.8%</td><td>289</td><td>2.86</td><td>2分36秒</td></tr>
+        <tr><td>17</td><td><div>News / Events</div><div class="url-cell">jacet.org/news/</div></td><td>825</td><td>0.8%</td><td>633</td><td>1.30</td><td>11秒</td></tr>
+        <tr><td>18</td><td><div>Contact</div><div class="url-cell">jacet.org/contact/</div></td><td>820</td><td>0.8%</td><td>588</td><td>1.39</td><td>30秒</td></tr>
+        <tr><td>19</td><td><div>65th 大会情報 第2報（JAAL夏季募集）</div><div class="url-cell">jacet.org/info/jacet65th-2/</div></td><td>779</td><td>0.8%</td><td>516</td><td>1.51</td><td>39秒</td></tr>
+        <tr><td>20</td><td><div>For Supporting Members | Convention</div><div class="url-cell">jacet.org/convention/2026-2/for-supporting-members/</div></td><td>765</td><td>0.8%</td><td>409</td><td>1.87</td><td>32秒</td></tr>
+        <tr><td>21</td><td><div>Convention Book 2026（大会要綱）</div><div class="url-cell">jacet.org/convention/2026-2/convention_book_2026/</div></td><td>750</td><td>0.8%</td><td>377</td><td>1.99</td><td>57秒</td></tr>
+        <tr><td>22</td><td><div>JAAL in JACET Proceedings</div><div class="url-cell">jacet.org/publication/jaal-in-jacet-proceedings/</div></td><td>635</td><td>0.7%</td><td>420</td><td>1.51</td><td>10秒</td></tr>
+        <tr><td>23</td><td><div>Agreement | About JACET</div><div class="url-cell">jacet.org/about_jacet/agreement/</div></td><td>616</td><td>0.6%</td><td>376</td><td>1.64</td><td>18秒</td></tr>
+        <tr><td>24</td><td><div>Submission Guidelines | JACET Journal</div><div class="url-cell">jacet.org/publication/jacet-journal/submission-guidelines/</div></td><td>604</td><td>0.6%</td><td>311</td><td>1.94</td><td>38秒</td></tr>
+        <tr><td>25</td><td><div>For Participants | 2026 Convention（参加者向け案内）</div><div class="url-cell">jacet.org/convention/2026-2/for-participants/</div></td><td>595</td><td>0.6%</td><td>392</td><td>1.52</td><td>43秒</td></tr>
+        <tr><td>26</td><td><div>JAAL in JACET 2026 Summer</div><div class="url-cell">jacet.org/news/jaal-in-jacet/2026-in-summer/</div></td><td>570</td><td>0.6%</td><td>367</td><td>1.55</td><td>42秒</td></tr>
+        <tr><td>27</td><td><div>2025 Convention</div><div class="url-cell">jacet.org/convention/2025-2/</div></td><td>560</td><td>0.6%</td><td>400</td><td>1.40</td><td>27秒</td></tr>
+        <tr class="highlight"><td>28</td><td><div>65th Abstract Submission Form（発表申込）</div><div class="url-cell">jacet.org/jacet-65th-international-convention-osaka-2026-abstract-submission-form/</div></td><td>517</td><td>0.5%</td><td>237</td><td>2.18</td><td>4分16秒</td></tr>
+        <tr><td>29</td><td><div>Other Publications</div><div class="url-cell">jacet.org/publication/other-publications/</div></td><td>507</td><td>0.5%</td><td>333</td><td>1.52</td><td>36秒</td></tr>
+        <tr><td>30</td><td><div>Affiliate（賛助会員）</div><div class="url-cell">jacet.org/about_jacet/affiliate/</div></td><td>506</td><td>0.5%</td><td>379</td><td>1.34</td><td>20秒</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:11px;color:#999;margin-top:12px;line-height:1.7;">
+      ※閲覧数・アクティブユーザー・滞在時間はGA4「ページとスクリーン」レポート（ページパスとスクリーン クラス、2026年1月1日〜9月21日＝GA設置以降の全期間）の実測値。「新規ユーザー」「スクロールユーザー」のページ別内訳は今回も未取得（GA4標準レポートの既定列に含まれないため）。
+    </p>
+  </div>
+
+  <!-- Insights -->
+  <div class="section">
+    <div class="section-title">考察・インサイト</div>
+    <div class="insight-grid">
+      <div class="insight-card good">
+        <div class="insight-title">🔝 求人ページ：最大の入口を維持</div>
+        <div class="insight-text">
+          「Job Openings」が累計23,466 PV（全体の24%）で1位を維持。構成比は前回27%からやや低下したが、これは大会関連の急増による相対的なもので、絶対数は+6,890PV。ユーザーあたり4.72PV・平均滞在1分04秒と前回同様の傾向で、<strong>学会本体コンテンツへの導線</strong>は引き続き課題。
+        </div>
+      </div>
+      <div class="insight-card good">
+        <div class="insight-title">🎓 大会本番でプログラム・要綱・参加者案内が急伸</div>
+        <div class="insight-text">
+          大会プログラムが434PV（23位）→4,992PV（4位）へ跳ね上がり、大会トップ（9,003）と合わせて全体の14%。Convention Book 2026（750）・For Participants（595）・大会情報第6報（937）も新たに上位30に入り、<strong>8月下旬の大会当日前後に「参加者が現地で使うページ」が集中的に参照された</strong>ことが分かる。
+        </div>
+      </div>
+      <div class="insight-card good">
+        <div class="insight-title">📋 入会申込ページが16位に浮上</div>
+        <div class="insight-text">
+          「Admission 入会申込」は657PV→826PV（+169）、アクティブユーザー228→289名。平均滞在2分36秒は上位30ページ中で発表申込フォーム（4分16秒）に次ぐ長さで、実際に記入に使われている。<strong>入会方法（1,192名）→入会申込（289名）の到達率は24%</strong>。
+        </div>
+      </div>
+      <div class="insight-card warn">
+        <div class="insight-title">⚠️ 短時間離脱ページは前回と同じ顔ぶれ</div>
+        <div class="insight-text">
+          「Executives 役員一覧」（9秒）、「JAAL Proceedings」（10秒）、「News」（11秒）、「大会情報第6報」（12秒）、「Convention 大会一覧」（15秒）は滞在が極端に短い。第6報は記事内リンクで次ページへ送る役割を果たしているが、役員一覧・News・大会一覧は<strong>中継点として機能しておらず</strong>、ナビゲーション改善の余地が続いている。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    データソース：Google Analytics 4（JACET HP）　|　集計期間：2026年2月（GA設置以降）〜9月21日（累計データ）<br>
+    作成：藤村敬次（JACET法人事業委員会）　|　更新日：2026年9月22日　|　次回更新：2026年11月20日（予定）
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

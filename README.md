@@ -33,13 +33,13 @@ GA4の経路データ探索は最大60日間のみ取得可能（UI操作が必�
 | 第5回（最終） | 2027-03-21 | `JACET_HP_UserFlow_202703.html` |
 
 ### 総合・国際・コンバージョン分析（90日ごと）
-前回データとの比較セクション付きで生成。
+GA設置以降の累計方式。前回データとの比較セクション付きで生成。新規ユーザー・コンバージョン分析は International レポート内の `#new-users` セクション。
 
 | 回 | 実行日 | 生成ファイル（3本） |
 |---|---|---|
-| 第1回 | 2026-08-20 | `*_202608.html` |
-| 第2回 | 2026-11-20 | `*_202611.html` |
-| 第3回（最終） | 2027-02-20 | `*_202702.html` ＋全期間総括 |
+| 第1回 | 2026-08-20（実行失敗→2026-09-22に実施） | `JACET_HP_Analytics_Report_202509.html` / `JACET_HP_International_202509.html`（#new-users 含む） |
+| 第2回 | 2026-11-20 | `*_202611.html`（2本） |
+| 第3回（最終） | 2027-02-20 | `*_202702.html`（2本）＋全期間総括 |
 
 ---
 
@@ -66,7 +66,8 @@ Claudeデスクトップアプリのスケジュールタスクで自動収集�
 レポート生成後の GitHub 反映は自動化済み（2026-09-22〜）。
 
 1. スケジュールタスクが `index.html` と新レポートHTMLをローカル（`Team2_学会組織/JACET/`）に生成
-2. launchd（`com.fujimura.jacet-analytics-publish`）がフォルダ更新を検知し、公開対象ファイルだけを commit + push
-3. 数分後に公開URLへ反映。ログ: `Team5_インフラ/jacet_publish.log`
+2. スケジュールタスクが公開対象ファイルを `~/jacet-analytics-publish/repo/` にコピー
+3. launchd（`com.fujimura.jacet-analytics-publish`）が更新を検知し commit + push（launchd は TCC 制約で Documents を読めないため、保護外フォルダ経由）
+4. 数分後に公開URLへ反映。ログ: `~/jacet-analytics-publish/publish.log`
 
 手順書: `Team5_インフラ/jacet_analytics_publish_setup.md`
