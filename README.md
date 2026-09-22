@@ -63,8 +63,10 @@ Claudeデスクトップアプリのスケジュールタスクで自動収集�
 
 ## 更新手順
 
-新しいレポートが生成されたら：
+レポート生成後の GitHub 反映は自動化済み（2026-09-22〜）。
 
-1. `index.html` に新レポートへのカードを追加
-2. GitHubに手動アップロード（Upload files）
-3. コミットメッセージ例：`Add UserFlow report 202507`
+1. スケジュールタスクが `index.html` と新レポートHTMLをローカル（`Team2_学会組織/JACET/`）に生成
+2. launchd（`com.fujimura.jacet-analytics-publish`）がフォルダ更新を検知し、公開対象ファイルだけを commit + push
+3. 数分後に公開URLへ反映。ログ: `Team5_インフラ/jacet_publish.log`
+
+手順書: `Team5_インフラ/jacet_analytics_publish_setup.md`
